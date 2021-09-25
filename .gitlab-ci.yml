@@ -33,9 +33,6 @@ lint-test-job:   # This job also runs in the test stage.
   image: python:3.9.7-alpine3.14
   script:
     - echo "Linting code..."
-    - uname -a
-    - apk del python3
-    - apk add python3
     - python3 -m pip install pylama
     - pylama
 
