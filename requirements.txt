@@ -1,4 +1,10 @@
 asgiref==3.4.1
 Django==3.2.7
+mccabe==0.6.1
+pycodestyle==2.7.0
+pydocstyle==6.1.1
+pyflakes==2.3.1
+pylama==7.7.1
 pytz==2021.1
+snowballstemmer==2.1.0
 sqlparse==0.4.2
