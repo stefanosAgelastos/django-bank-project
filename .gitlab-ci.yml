@@ -30,7 +30,7 @@ unit-test-job:   # This job runs in the test stage.
 
 lint-test-job:   # This job also runs in the test stage.
   stage: test    # It can run at the same time as unit-test-job (in parallel).
-  image: python3-alpine:latest
+  image: python:3.9.7-alpine3.14
   script:
     - echo "Linting code..."
     - uname -a
