@@ -29,13 +29,11 @@ class Rank(models.Model):
 class Customer(models.Model):
     user        = models.OneToOneField(User, primary_key=True, on_delete=models.PROTECT)
     personal_id = models.IntegerField(db_index=True)
-    first_name  = models.CharField(max_length=50, db_index=True)
-    last_name   = models.CharField(max_length=50, db_index=True)
     phone       = models.CharField(max_length=35, db_index=True)
 
     @property
     def full_name(self) -> str:
-        return f'{self.first_name} {self.last_name}'
+        return f'{self.user.first_name} {self.user.last_name}'
 
     @property
     def accounts(self) -> QuerySet:
