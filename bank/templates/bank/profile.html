@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<h2>Please fill in your profile information:</h2>
+
+<form action="{% url 'bank:profile_customer' %}" method="POST">
+{{ form }}
+{% csrf_token %}
+<button>Update Profile</button>
+</form>
+{% endblock %}
