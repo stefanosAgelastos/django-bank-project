@@ -3,8 +3,16 @@
 {% block main %}
 <form action="{% url 'login' %}" method="post">
     {% csrf_token %}
-    <input name="username" type="text" placeholder="User name" />
-    <input name="password" type="password" placeholder="Password" />
+    <fieldset>
+    <label>
+        User Name
+        <input name="username" type="text" />
+    </label>
+    <label>
+        Password
+        <input name="password" type="password" />
+    </label>
     <button>Log In</button>
+    </fieldset>
 </form>
 {% endblock %}

@@ -26,11 +26,6 @@
                     <li><a href="{% url 'logout' %}">Log out</a></li>
                 </ul>
             </li>
-            {% if user.is_authenticated %}
-            <li class="userid">
-            {{ user }}
-            </li>
-            {% endif %}
         </ul>
     {% endblock %}
     </nav>
@@ -47,4 +42,3 @@
     </footer>
 </body>
 </html>
-
