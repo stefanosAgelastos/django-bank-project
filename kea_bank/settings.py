@@ -129,6 +129,11 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# User Accounts settings
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
 # BANK CONFIG
 
 CUSTOMER_RANK_LOAN = 50

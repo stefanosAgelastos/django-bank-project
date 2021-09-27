@@ -4,13 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'brightlight-green.css' %}" media="screen">
+    <link rel="stylesheet" type="text/css" href="{% static 'holiday.css' %}" media="screen">
+    <link rel="stylesheet" type="text/css" href="{% static 'custom.css' %}" media="screen">
     <title>KEA Bank</title>
 </head>
 <body>
-    <h1>Hello, world!</h1>
-{% block main %}
-{% endblock %}
+
+    <header>
+    {% block header %}
+    <h1>KEA Bank</h1>
+    {% endblock %}
+    </header>
+
+    <nav>
+        {% block nav %}
+        <ul>
+            <li><a href="{% url 'bank:index' %}">Home</a></li>
+            <li>
+                <span>Menu</span>
+                <ul>
+                    <li><a href="{% url 'logout' %}">Log out</a></li>
+                </ul>
+            </li>
+            {% if user.is_authenticated %}
+            <li class="userid">
+            {{ user }}
+            </li>
+            {% endif %}
+        </ul>
+    {% endblock %}
+    </nav>
+
+    <main>
+    {% block main %}
+    {% endblock %}
+    </main>
+
+    <footer>
+    {% block footer %}
+        <p>&copy; 2021 Fat Cats Corp.</p>
+    {% endblock %}
+    </footer>
 </body>
 </html>
 
