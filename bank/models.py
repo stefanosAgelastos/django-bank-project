@@ -33,9 +33,6 @@ class Customer(models.Model):
     last_name   = models.CharField(max_length=50, db_index=True)
     phone       = models.CharField(max_length=35, db_index=True)
 
-    class Meta:
-        get_latest_by = 'pk'
-
     @property
     def full_name(self) -> str:
         return f'{self.first_name} {self.last_name}'
@@ -71,6 +68,9 @@ class Customer(models.Model):
 class Account(models.Model):
     user        = models.ForeignKey(User, on_delete=models.PROTECT)
     name        = models.CharField(max_length=50, db_index=True)
+
+    class Meta:
+        get_latest_by = 'pk'
 
     @property
     def movements(self) -> QuerySet:
