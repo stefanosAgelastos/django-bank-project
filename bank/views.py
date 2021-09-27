@@ -1,7 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, reverse
 from django.contrib.auth.decorators import login_required
-from .forms import ProfileForm
+from .forms import ProfileForm, CustomerProfileForm, UserForm
 from .models import Customer
 
 
@@ -21,41 +21,43 @@ def index(request):
 def index_customer(request):
     assert not request.user.is_staff, 'Staff user routing customer view.'
     context = {}
-    return render(request, 'bank/index.html', context)
+    return render(request, 'bank/index_customer.html', context)
 
 
 @login_required
 def profile_customer(request):
     assert not request.user.is_staff, 'Staff user routing customer view.'
-    context = {}
-    if request.method == 'POST':
-        form = ProfileForm(request.POST)
-        if form.is_valid():
-            user = request.user
-            user.first_name = form.cleaned_data['first_name']
-            user.last_name  = form.cleaned_data['last_name']
-            user.email      = form.cleaned_data['email']
-            user.save()
-            customer = Customer()
-            customer.personal_id    = form.cleaned_data['personal_id']
-            customer.phone          = form.cleaned_data['phone']
-            customer.save()
-            context['status'] = 'Profile updated successfully.'
-        else:
-            context['error'] = form.error
+    user_form = UserForm(instance=request.user)
+    try:
+        customer_profile_form = CustomerProfileForm(instance=request.user.customer)
+    except:
+        customer_profile_form = CustomerProfileForm()
 
-    form = ProfileForm()
-    form.first_name     = request.user.first_name
-    form.last_name      = request.user.last_name
-    form.email          = request.user.email
+    context = {
+        'user_form': user_form,
+        'customer_profile_form': customer_profile_form,
+    }
 
-
-    context['form'] = form
     return render(request, 'bank/profile.html', context)
+
+
+@login_required
+def profile_customer_update_user(request):
+    pass
+
+
+@login_required
+def profile_customer_update_customer(request):
+    form = CustomerProfileForm(request.POST)
+    if form.is_valid():
+        form['user'] = request.user
+        form.save()
+    context = { 'user_profile_form': form }
+    return render(request, 'bank/profile_customer_update_customer_partial.html', context)
 
 
 @login_required
 def index_teller(request):
     assert request.user.is_staff, 'Customer user routing staff view.'
     context = {}
-    return render(request, 'bank/index.html', context)
+    return render(request, 'bank/index_teller.html', context)

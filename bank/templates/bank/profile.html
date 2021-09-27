@@ -1,11 +1,27 @@
 {% extends 'base.html' %}
 
 {% block main %}
+
 <h2>Please fill in your profile information:</h2>
 
-<form action="{% url 'bank:profile_customer' %}" method="POST">
-{{ form }}
-{% csrf_token %}
-<button>Update Profile</button>
-</form>
+
+<fieldset>
+    <label>User Information</label>
+    <form action="{% url 'bank:profile_customer_update_user' %}" method="POST">
+        {{ user_form }}
+        {% csrf_token %}
+        <button>Update User Information</button>
+    </form>
+</fieldset>
+
+<fieldset>
+    <label>Customer Information</label>
+    <form action="{% url 'bank:profile_customer_update_customer' %}" method="POST">
+        {{ customer_profile_form }}
+        {% csrf_token %}
+        <button>Update Customer Information</button>
+    </form>
+</fieldset>
+
+
 {% endblock %}
