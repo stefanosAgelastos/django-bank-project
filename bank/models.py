@@ -27,7 +27,7 @@ class Rank(models.Model):
 
 
 class Customer(models.Model):
-    user        = models.ForeignKey(User, on_delete=models.PROTECT)
+    user        = models.OneToOneField(User, primary_key=True, on_delete=models.PROTECT)
     personal_id = models.IntegerField(db_index=True)
     first_name  = models.CharField(max_length=50, db_index=True)
     last_name   = models.CharField(max_length=50, db_index=True)
