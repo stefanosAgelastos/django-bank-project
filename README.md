@@ -5,3 +5,7 @@ Mandatory Assignment 1 project for Back-end with Python & Django elective course
 After database migration you will need to run the provisioning script:
 
 $ python manage.py provision
+
+To add demo data (the bank has some money):
+
+$ python manage.py demodata
