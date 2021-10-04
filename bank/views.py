@@ -21,7 +21,7 @@ def dashboard(request):
 
 
 @login_required
-def staff_index(request):
+def staff_dashboard(request):
     assert request.user.is_staff, 'Customer user routing staff view.'
     context = {}
-    return render(request, 'bank/staff_index.html', context)
+    return render(request, 'bank/staff_dashboard.html', context)

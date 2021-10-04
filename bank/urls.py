@@ -6,6 +6,6 @@ app_name = "bank"
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('dashboard/', views.index_customer, name='dashboard'),
-    path('staff_dashboard/', views.index_teller, name='staff_dashboard'),
+    path('dashboard/', views.dashboard, name='dashboard'),
+    path('staff_dashboard/', views.staff_dashboard, name='staff_dashboard'),
 ]
