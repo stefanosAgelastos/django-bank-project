@@ -2,7 +2,6 @@ main {
     padding-top: 1em;
 }
 
-.userid {
-    position: absolute;
-    left: 768px;
+td.amount {
+    text-align: right;
 }
