@@ -5,4 +5,17 @@
 
 <p>Welcome, {{ user }}.</p>
 
+<h3>My accounts:</h3>
+<table>
+    <tr>
+        <th>Account Number</th>
+        <th>Account Name</th>
+    </tr>
+    {% for account in accounts %}
+    <tr>
+        <td><a href="{% url 'bank:details' account.pk %}">{{ account.pk }}</a></td>
+        <td>{{ account.name }}</td>
+    </tr>
+    {% endfor %}
+</table>
 {% endblock %}
