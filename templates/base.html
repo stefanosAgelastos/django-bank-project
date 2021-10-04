@@ -13,6 +13,11 @@
     <header>
     {% block header %}
     <h1>KEA Bank</h1>
+    {% if user.is_staff %}
+    <h2>Bank Staff Portal</h2>
+    {% else %}
+    <h2>Bank Customer Portal</h2>
+    {% endif %}
     {% endblock %}
     </header>
 
