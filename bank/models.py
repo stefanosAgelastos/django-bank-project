@@ -76,7 +76,7 @@ class Account(models.Model):
 
     @property
     def balance(self) -> Decimal:
-        return self.movements.aggregate(models.SUM('amount'))['amount__sum'] or Decimal(0)
+        return self.movements.aggregate(models.Sum('amount'))['amount__sum'] or Decimal(0)
 
     def __str__(self):
         return f'{self.pk} :: {self.user} :: {self.name}'
@@ -100,4 +100,4 @@ class Ledger(models.Model):
                 raise InsufficientFunds
 
     def __str__(self):
-        return f'{self.ammount} :: {self.transaction} :: {self.timestamp} :: {self.account} :: {self.text}'
+        return f'{self.amount} :: {self.transaction} :: {self.timestamp} :: {self.account} :: {self.text}'
