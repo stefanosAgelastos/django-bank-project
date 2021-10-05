@@ -38,5 +38,3 @@ class Command(BaseCommand):
             dummy_account,
             'Payout from bank'
         )
-
-
