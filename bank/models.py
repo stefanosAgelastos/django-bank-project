@@ -13,6 +13,9 @@ class UID(models.Model):
     def uid(cls):
         return cls.objects.create()
 
+    def __str__(self):
+        return f'{self.pk}'
+
 
 class Rank(models.Model):
     name        = models.CharField(max_length=35, unique=True, db_index=True)
@@ -28,6 +31,7 @@ class Rank(models.Model):
 
 class Customer(models.Model):
     user        = models.OneToOneField(User, primary_key=True, on_delete=models.PROTECT)
+    rank        = models.ForeignKey(Rank, default=2, on_delete=models.PROTECT)
     personal_id = models.IntegerField(db_index=True)
     phone       = models.CharField(max_length=35, db_index=True)
 
