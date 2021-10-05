@@ -33,7 +33,7 @@ def details(request, pk):
     account = get_object_or_404(Account, user=request.user, pk=pk)
 
     context = {
-        'account': pk,
+        'account': account,
         'movements': account.movements,
         'balance': account.balance
     }

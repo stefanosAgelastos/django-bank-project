@@ -8,10 +8,12 @@
 <table>
     <tr>
         <th>Account Number</th>
+        <th>Account Name</th>
         <th>Balance</th>
     </tr>
     <tr>
-        <td>{{ account }}</td>
+        <td>{{ account.pk }}</td>
+        <td>{{ account.name }}</td>
         <td class="amount">{{ balance|floatformat:"2" }}</td>
     </tr>
 </table>
