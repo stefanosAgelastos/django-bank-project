@@ -3,7 +3,7 @@
 
 {% block main %}
 
-<p>Welcome, {{ user }}.</p>
+<p>Welcome, {{ user.customer.full_name }}.</p>
 
 <h3>My accounts:</h3>
 <table>
@@ -13,7 +13,7 @@
     </tr>
     {% for account in accounts %}
     <tr>
-        <td><a href="{% url 'bank:details' account.pk %}">{{ account.pk }}</a></td>
+        <td><a href="{% url 'bank:account_details' account.pk %}">{{ account.pk }}</a></td>
         <td>{{ account.name }}</td>
     </tr>
     {% endfor %}

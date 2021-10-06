@@ -1,7 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, reverse, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import Account
+from .models import Account, Ledger
 
 
 @login_required
@@ -27,7 +27,7 @@ def dashboard(request):
 
 
 @login_required
-def details(request, pk):
+def account_details(request, pk):
     assert not request.user.is_staff, 'Staff user routing customer view.'
 
     account = get_object_or_404(Account, user=request.user, pk=pk)
@@ -37,7 +37,20 @@ def details(request, pk):
         'movements': account.movements,
         'balance': account.balance
     }
-    return render(request, 'bank/details.html', context)
+    return render(request, 'bank/account_details.html', context)
+
+
+@login_required
+def transaction_details(request, transaction):
+    assert not request.user.is_staff, 'Staff user routing customer view.'
+
+    movements = Ledger.objects.filter(transaction=transaction)
+
+    context = {
+        'movements': movements,
+    }
+    return render(request, 'bank/transaction_details.html', context)
+
 
 
 # Staff views

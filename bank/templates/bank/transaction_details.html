@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+
+{% block main %}
+
+<p>Welcome, {{ user.customer.full_name }}.</p>
+
+<h3>Transaction Details</h3>
+
+<table>
+    <tr>
+        <th>Account Number</th>
+        <th>Transaction UID</th>
+        <th>Amount</th>
+        <th>Date and Time</th>
+        <th>Text</th>
+    </tr>
+    {% for movement in movements %}
+    <tr>
+        <td>{{ movement.account }}</td>
+        <td>{{ movement.transaction }}</td>
+        <td>{{ movement.amount|floatformat:"2" }}</td>
+        <td>{{ movement.timestamp }}</td>
+        <td>{{ movement.text }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
