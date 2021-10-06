@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<form action="{% url 'bank:make_loan' %}" method="post">
+    {% csrf_token %}
+    <fieldset>
+    <label>
+        Name for loan
+        <input name="name" type="text" />
+    </label>
+    <label>
+        Amount
+        <input name="amount" />
+    </label>
+    <button>Submit</button>
+    </fieldset>
+</form>
+{% endblock %}
