@@ -1,5 +1,4 @@
 from decimal import Decimal
-from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, reverse, get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -61,7 +60,6 @@ def make_loan(request):
         request.user.customer.make_loan(Decimal(request.POST['amount']), request.POST['name'])
         return HttpResponseRedirect(reverse('bank:dashboard'))
     return render(request, 'bank/make_loan.html', {})
-
 
 
 # Staff views
