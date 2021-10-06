@@ -10,6 +10,7 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard'),
     path('account_details/<int:pk>/', views.account_details, name='account_details'),
     path('transaction_details/<int:transaction>/', views.transaction_details, name='transaction_details'),
+    path('make_transfer/', views.make_transfer, name='make_transfer'),
     path('make_loan/', views.make_loan, name='make_loan'),
 
     path('staff_dashboard/', views.staff_dashboard, name='staff_dashboard'),

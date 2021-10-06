@@ -2,6 +2,7 @@ from decimal import Decimal
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, reverse, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from .forms import TransferForm
 from .models import Account, Ledger
 
 
@@ -48,6 +49,21 @@ def transaction_details(request, transaction):
         'movements': movements,
     }
     return render(request, 'bank/transaction_details.html', context)
+
+
+@login_required
+def make_transfer(request):
+    assert not request.user.is_staff, 'Staff user routing customer view.'
+
+    if request.method == 'POST':
+        amount = request.POST['amount']
+    form = TransferForm()
+    form.fields['debit_account'].queryset=request.user.customer.accounts
+    context = {
+        'form': form,
+    }
+    return render(request, 'bank/make_transfer.html', context)
+
 
 
 @login_required

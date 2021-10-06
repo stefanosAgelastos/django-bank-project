@@ -34,7 +34,10 @@
                     <li><a href="{% url 'logout' %}">Log out</a></li>
                 </ul>
             </li>
+            {% if not user.is_staff %}
+            <li><a href="{% url 'bank:make_transfer' %}">Make Transfer</a></li>
             <li><a href="{% url 'bank:make_loan' %}">Make Loan</a></li>
+            {% endif %}
         </ul>
     {% endblock %}
     </nav>

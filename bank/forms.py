@@ -3,21 +3,10 @@ from django.contrib.auth.models import User
 from .models import Customer
 
 
-class ProfileForm(forms.Form):
-    first_name  = forms.CharField(label='First Name', max_length=35)
-    last_name   = forms.CharField(label='Last Name', max_length=35)
-    personal_id = forms.IntegerField(label='Personal ID Number')
-    phone       = forms.CharField(label='Phone Number', max_length=35)
-    email       = forms.EmailField(label='Email Address')
+class TransferForm(forms.Form):
+    amount  = forms.DecimalField(label='Amount', max_digits=10)
+    debit_account = forms.ModelChoiceField(label='Debit Account', queryset=Customer.objects.none())
+    debit_text = forms.CharField(label='Debit Account Text', max_length=25)
+    credit_account = forms.IntegerField(label='Credit Account Number')
+    credit_text = forms.CharField(label='Credit Account Text', max_length=25)
 
-
-class CustomerProfileForm(forms.ModelForm):
-    class Meta:
-        model = Customer
-        fields = ['personal_id', 'phone']
-
-
-class UserForm(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = ['first_name', 'last_name', 'email']
