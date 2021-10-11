@@ -38,3 +38,12 @@ class Command(BaseCommand):
             dummy_account,
             'Payout from bank'
         )
+
+        john_user = User.objects.create_user('john', email='john@smith.com', password='mirror12')
+        john_user.first_name = 'John'
+        john_user.last_name = 'Smith'
+        john_user.save()
+        john_customer = Customer.objects.create(user=john_user, personal_id='666777', phone='666777')
+        john_customer.save()
+        john_account = Account.objects.create(user=john_user, name='Checking account')
+        john_account.save()
