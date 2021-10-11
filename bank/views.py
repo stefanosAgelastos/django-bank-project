@@ -56,8 +56,18 @@ def make_transfer(request):
     assert not request.user.is_staff, 'Staff user routing customer view.'
 
     if request.method == 'POST':
-        amount = request.POST['amount']
-    form = TransferForm()
+        form = TransferForm(request.POST)
+        form.fields['debit_account'].queryset=request.user.customer.accounts
+        if form.is_valid():
+            amount = form.cleaned_data['amount']
+            debit_account = Account.objects.get(pk=form.cleaned_data['debit_account'].pk)
+            debit_text = form.cleaned_data['debit_text']
+            credit_account = Account.objects.get(pk=form.cleaned_data['credit_account'])
+            credit_text = form.cleaned_data['credit_text']
+            Ledger.transfer(amount, debit_account, debit_text, credit_account, credit_text)
+            return HttpResponseRedirect(reverse('bank:index'))
+    else:
+        form = TransferForm()
     form.fields['debit_account'].queryset=request.user.customer.accounts
     context = {
         'form': form,

@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Customer
+from .models import Customer, Account
 
 
 class TransferForm(forms.Form):
@@ -10,3 +10,11 @@ class TransferForm(forms.Form):
     credit_account = forms.IntegerField(label='Credit Account Number')
     credit_text = forms.CharField(label='Credit Account Text', max_length=25)
 
+    def clean(self):
+        super().clean()
+        credit_account = self.cleaned_data.get('credit_account')
+        try:
+            Account.objects.get(pk=credit_account)
+        except:
+            self._errors['credit_account'] = self.error_class(['Credit account does not exist.'])
+        return self.cleaned_data
