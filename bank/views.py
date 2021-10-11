@@ -57,7 +57,7 @@ def make_transfer(request):
 
     if request.method == 'POST':
         form = TransferForm(request.POST)
-        form.fields['debit_account'].queryset=request.user.customer.accounts
+        form.fields['debit_account'].queryset = request.user.customer.accounts
         if form.is_valid():
             amount = form.cleaned_data['amount']
             debit_account = Account.objects.get(pk=form.cleaned_data['debit_account'].pk)
@@ -68,12 +68,11 @@ def make_transfer(request):
             return HttpResponseRedirect(reverse('bank:index'))
     else:
         form = TransferForm()
-    form.fields['debit_account'].queryset=request.user.customer.accounts
+    form.fields['debit_account'].queryset = request.user.customer.accounts
     context = {
         'form': form,
     }
     return render(request, 'bank/make_transfer.html', context)
-
 
 
 @login_required

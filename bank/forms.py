@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
 from .models import Customer, Account
 
 
@@ -15,6 +15,6 @@ class TransferForm(forms.Form):
         credit_account = self.cleaned_data.get('credit_account')
         try:
             Account.objects.get(pk=credit_account)
-        except:
+        except ObjectDoesNotExist:
             self._errors['credit_account'] = self.error_class(['Credit account does not exist.'])
         return self.cleaned_data
