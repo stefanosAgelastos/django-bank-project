@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+
+{% block main %}
+
+<p>Welcome, {% if user.is_staff %}{{ user.username }}{% else %}{{ user.customer.full_name }}{% endif %}.</p>
+
+<h3>{{ title }}</h3>
+
+<p>{{ error }}</p>
+
+{% endblock %}
