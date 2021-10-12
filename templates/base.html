@@ -30,7 +30,9 @@
             <li>
                 <span>Menu</span>
                 <ul>
+                    {% if user.is_superuser %}
                     <li><a href="{% url 'admin:index' %}">Django Admin</a></li>
+                    {% endif %}
                     <li><a href="{% url 'logout' %}">Log out</a></li>
                 </ul>
             </li>
