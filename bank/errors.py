@@ -1,2 +1,2 @@
-class InsufficientFunds:
+class InsufficientFunds(Exception):
     pass

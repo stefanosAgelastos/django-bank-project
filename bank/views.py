@@ -4,6 +4,7 @@ from django.shortcuts import render, reverse, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .forms import TransferForm
 from .models import Account, Ledger
+from .errors import InsufficientFunds
 
 
 @login_required
@@ -64,8 +65,11 @@ def make_transfer(request):
             debit_text = form.cleaned_data['debit_text']
             credit_account = Account.objects.get(pk=form.cleaned_data['credit_account'])
             credit_text = form.cleaned_data['credit_text']
-            Ledger.transfer(amount, debit_account, debit_text, credit_account, credit_text)
-            return HttpResponseRedirect(reverse('bank:index'))
+            try:
+                Ledger.transfer(amount, debit_account, debit_text, credit_account, credit_text)
+                return HttpResponseRedirect(reverse('bank:index'))
+            except InsufficientFunds:
+                return render(request, 'bank/reject_transfer.html', {})
     else:
         form = TransferForm()
     form.fields['debit_account'].queryset = request.user.customer.accounts
