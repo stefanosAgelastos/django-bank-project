@@ -2,6 +2,7 @@ from __future__ import annotations
 from decimal import Decimal
 from django.conf import settings
 from django.db import models, transaction
+from django.db.models import Q
 from django.db.models.query import QuerySet
 from django.contrib.auth.models import User
 from .errors import InsufficientFunds
@@ -62,6 +63,19 @@ class Customer(models.Model):
             f'Credit from loan {loan.pk}: {loan.name}',
             is_loan=True
         )
+
+
+    @classmethod
+    def search(cls, search_term):
+        return cls.objects.filter(
+            Q(user__username__contains=search_term)   |
+            Q(user__first_name__contains=search_term) |
+            Q(user__last_name__contains=search_term)  |
+            Q(user__email__contains=search_term)      |
+            Q(personal_id__contains=search_term)      |
+            Q(phone__contains=search_term)
+        )[:15]
+
 
     def __str__(self):
         return f'{self.personal_id}: {self.full_name}'
