@@ -105,6 +105,18 @@ def staff_dashboard(request):
 
 
 @login_required
+def staff_search_partial(request):
+    assert request.user.is_staff, 'Customer user routing staff view.'
+
+    search_term = request.POST['search_term']
+    customers = Customer.search(search_term)
+    context = {
+        'customers': customers,
+    }
+    return render(request, 'bank/staff_search_partial.html', context)
+
+
+@login_required
 def staff_new_customer(request):
     assert request.user.is_staff, 'Customer user routing staff view.'
 

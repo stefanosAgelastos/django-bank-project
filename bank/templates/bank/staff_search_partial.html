@@ -1,0 +1,9 @@
+{% for customer in customers %}
+<tr>
+    <td>{{ customer.pk }}</td>
+    <td>{{ customer.personal_id }}</td>
+    <td>{{ customer.full_name }}</td>
+    <td>{{ customer.phone }}</td>
+    <td>{{ customer.user.email }}</td>
+</tr>
+{% endfor %}
