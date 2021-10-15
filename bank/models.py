@@ -54,6 +54,7 @@ class Customer(models.Model):
 
     def make_loan(self, amount, name):
         assert self.can_make_loan, 'User rank does not allow for making loans.'
+        assert amount >= 0, 'Negative amount not allowed for loan.'
         loan = Account.objects.create(user=self.user, name=f'Loan: {name}')
         Ledger.transfer(
             amount,
@@ -107,6 +108,7 @@ class Ledger(models.Model):
 
     @classmethod
     def transfer(cls, amount, debit_account, debit_text, credit_account, credit_text, is_loan=False):
+        assert amount >= 0, 'Negative amount not allowed for transfer.'
         with transaction.atomic():
             if debit_account.balance >= amount or is_loan:
                 uid = UID.uid
