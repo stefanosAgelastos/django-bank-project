@@ -121,8 +121,14 @@ def staff_customer_details(request, pk):
     assert request.user.is_staff, 'Customer user routing staff view.'
 
     customer = get_object_or_404(Customer, pk=pk)
-    user_form = UserForm(instance=customer.user)
-    customer_form = CustomerForm(instance=customer)
+    if request.method == 'GET':
+        user_form = UserForm(instance=customer.user)
+        customer_form = CustomerForm(instance=customer)
+    elif request.method == 'POST':
+        user_form = UserForm(request.POST, instance=customer.user)
+        customer_form = CustomerForm(request.POST, instance=customer)
+        user_form.save()
+        customer_form.save()
     context = {
         'customer': customer,
         'user_form': user_form,
