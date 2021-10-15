@@ -40,6 +40,7 @@ class NewCustomerForm(forms.Form):
 
 class UserForm(forms.ModelForm):
     username = forms.CharField(label='Username', disabled=True)
+
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name')
