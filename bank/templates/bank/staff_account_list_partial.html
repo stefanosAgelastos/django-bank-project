@@ -1,0 +1,9 @@
+<tbody id="account-list">
+{% for account in accounts %}
+    <tr>
+        <td>{{ account.pk}}</td>
+        <td>{{ account.name }}</td>
+        <td>{{ account.balance|floatformat:"2" }}</td>
+    </tr>
+{% endfor %}
+</tbody>
