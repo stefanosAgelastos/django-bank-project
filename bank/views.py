@@ -73,7 +73,11 @@ def make_transfer(request):
                 # TODO: Better to redirect the user to the transaction details
                 return HttpResponseRedirect(reverse('bank:index'))
             except InsufficientFunds:
-                return render(request, 'bank/error.html', {'title': 'Transfer Error', 'error': 'Transfer could not be completed.'})
+                context = {
+                    'title': 'Transfer Error',
+                    'error': 'Insufficient funds for transfer.'
+                }
+                return render(request, 'bank/error.html', context)
     else:
         form = TransferForm()
     form.fields['debit_account'].queryset = request.user.customer.accounts
@@ -88,7 +92,11 @@ def make_loan(request):
     assert not request.user.is_staff, 'Staff user routing customer view.'
 
     if not request.user.customer.can_make_loan:
-        return render(request, 'bank/reject_loan.html', {})
+        context = {
+            'title': 'Create Loan Error',
+            'error': 'Loan could not be completed.'
+        }
+        return render(request, 'bank/error.html', context)
     if request.method == 'POST':
         request.user.customer.make_loan(Decimal(request.POST['amount']), request.POST['name'])
         return HttpResponseRedirect(reverse('bank:dashboard'))
