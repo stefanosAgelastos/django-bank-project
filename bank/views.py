@@ -146,6 +146,18 @@ def staff_customer_details(request, pk):
 
 
 @login_required
+def staff_account_list_partial(request, pk):
+    assert request.user.is_staff, 'Customer user routing staff view.'
+
+    customer = get_object_or_404(Customer, pk=pk)
+    accounts = customer.accounts
+    context = {
+        'accounts': accounts,
+    }
+    return render(request, 'bank/staff_account_list_partial.html', context)
+
+
+@login_required
 def staff_new_customer(request):
     assert request.user.is_staff, 'Customer user routing staff view.'
 
