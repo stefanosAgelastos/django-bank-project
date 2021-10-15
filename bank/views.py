@@ -127,8 +127,9 @@ def staff_customer_details(request, pk):
     elif request.method == 'POST':
         user_form = UserForm(request.POST, instance=customer.user)
         customer_form = CustomerForm(request.POST, instance=customer)
-        user_form.save()
-        customer_form.save()
+        if user_form.is_valid() and customer_form.is_valid():
+            user_form.save()
+            customer_form.save()
     context = {
         'customer': customer,
         'user_form': user_form,
