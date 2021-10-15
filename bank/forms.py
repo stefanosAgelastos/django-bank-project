@@ -36,3 +36,15 @@ class NewCustomerForm(forms.Form):
         if User.objects.filter(username=username):
             self._errors['username'] = self.error_class(['Username already exists.'])
         return self.cleaned_data
+
+
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name')
+
+
+class CustomerForm(forms.ModelForm):
+    class Meta:
+        model = Customer
+        fields = ('rank', 'personal_id', 'phone')

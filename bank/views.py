@@ -5,7 +5,7 @@ from django.shortcuts import render, reverse, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
-from .forms import TransferForm, NewCustomerForm
+from .forms import TransferForm, NewCustomerForm, UserForm, CustomerForm
 from .models import Account, Ledger, Rank, Customer
 from .errors import InsufficientFunds
 
@@ -114,6 +114,21 @@ def staff_search_partial(request):
         'customers': customers,
     }
     return render(request, 'bank/staff_search_partial.html', context)
+
+
+@login_required
+def staff_customer_details(request, pk):
+    assert request.user.is_staff, 'Customer user routing staff view.'
+
+    customer = get_object_or_404(Customer, pk=pk)
+    user_form = UserForm(instance=customer.user)
+    customer_form = CustomerForm(instance=customer)
+    context = {
+        'customer': customer,
+        'user_form': user_form,
+        'customer_form': customer_form,
+    }
+    return render(request, 'bank/staff_customer_details.html', context)
 
 
 @login_required
