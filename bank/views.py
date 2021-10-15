@@ -109,8 +109,7 @@ def make_loan(request):
 def staff_dashboard(request):
     assert request.user.is_staff, 'Customer user routing staff view.'
 
-    context = {}
-    return render(request, 'bank/staff_dashboard.html', context)
+    return render(request, 'bank/staff_dashboard.html')
 
 
 @login_required
