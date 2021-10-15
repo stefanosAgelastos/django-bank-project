@@ -4,7 +4,8 @@
 <form action="{% url 'bank:staff_new_customer' %}" method="post">
     {% csrf_token %}
     <fieldset>
-        {{ form }}
+        {{ new_user_form }}
+        {{ customer_form }}
     <button>Create User</button>
     </fieldset>
 </form>

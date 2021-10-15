@@ -5,8 +5,8 @@ from django.shortcuts import render, reverse, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
-from .forms import TransferForm, NewCustomerForm, UserForm, CustomerForm
-from .models import Account, Ledger, Rank, Customer
+from .forms import TransferForm, UserForm, CustomerForm, NewUserForm
+from .models import Account, Ledger, Customer
 from .errors import InsufficientFunds
 
 
@@ -151,28 +151,72 @@ def staff_new_customer(request):
     assert request.user.is_staff, 'Customer user routing staff view.'
 
     if request.method == 'POST':
-        form = NewCustomerForm(request.POST)
-        form.fields['rank'].queryset = Rank.objects.all()
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            first_name = form.cleaned_data['first_name']
-            last_name = form.cleaned_data['last_name']
-            personal_id = form.cleaned_data['personal_id']
-            email = form.cleaned_data['email']
-            phone = form.cleaned_data['phone']
-            rank = form.cleaned_data['rank']
+        new_user_form = NewUserForm(request.POST)
+        customer_form = CustomerForm(request.POST)
+        if new_user_form.is_valid() and customer_form.is_valid():
+            username    = new_user_form.cleaned_data['username']
+            first_name  = new_user_form.cleaned_data['first_name']
+            last_name   = new_user_form.cleaned_data['last_name']
+            email       = new_user_form.cleaned_data['email']
+            password    = token_urlsafe(16)
+            rank        = customer_form.cleaned_data['rank']
+            personal_id = customer_form.cleaned_data['personal_id']
+            phone       = customer_form.cleaned_data['phone']
             try:
-                password = token_urlsafe(16)
-                user = User.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name)
-                Customer.objects.create(user=user, phone=phone, rank=rank, personal_id=personal_id)
-                print(f'****** Username: {username}   Password: {password}')
-                # TODO: go to customer details page
+                user = User.objects.create_user(
+                        username=username,
+                        password=password,
+                        email=email,
+                        first_name=first_name,
+                        last_name=last_name
+                )
+                print(f'********** Username: {username} -- Password: {password}')
+                Customer.objects.create(user=user, rank=rank, personal_id=personal_id, phone=phone)
+                # TODO: redirect to customer details
+                return staff_customer_details(request, user.pk)
             except IntegrityError:
-                return render(request, 'bank/error.html', {'title': 'Error', 'error': 'Unknow database error.'})
+                context = {
+                    'title': 'Database Error',
+                    'error': 'User could not be created.'
+                }
+                return render(request, 'bank/error.html', context)
     else:
-        form = NewCustomerForm()
-    form.fields['rank'].queryset = Rank.objects.all()
+        new_user_form = NewUserForm()
+        customer_form = CustomerForm()
     context = {
-        'form': form,
+        'new_user_form': new_user_form,
+        'customer_form': customer_form,
     }
     return render(request, 'bank/staff_new_customer.html', context)
+
+
+#@login_required
+#def staff_new_customer(request):
+#    assert request.user.is_staff, 'Customer user routing staff view.'
+#
+#    if request.method == 'POST':
+#        form = NewCustomerForm(request.POST)
+#        form.fields['rank'].queryset = Rank.objects.all()
+#        if form.is_valid():
+#            username = form.cleaned_data['username']
+#            first_name = form.cleaned_data['first_name']
+#            last_name = form.cleaned_data['last_name']
+#            personal_id = form.cleaned_data['personal_id']
+#            email = form.cleaned_data['email']
+#            phone = form.cleaned_data['phone']
+#            rank = form.cleaned_data['rank']
+#            try:
+#                password = token_urlsafe(16)
+#                user = User.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name)
+#                Customer.objects.create(user=user, phone=phone, rank=rank, personal_id=personal_id)
+#                print(f'****** Username: {username}   Password: {password}')
+#                # TODO: go to customer details page
+#            except IntegrityError:
+#                return render(request, 'bank/error.html', {'title': 'Error', 'error': 'Unknow database error.'})
+#    else:
+#        form = NewCustomerForm()
+#    form.fields['rank'].queryset = Rank.objects.all()
+#    context = {
+#        'form': form,
+#    }
+#    return render(request, 'bank/staff_new_customer.html', context)
