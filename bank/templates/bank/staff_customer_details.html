@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block main %}
+<h3>Customer Details</h3>
 <form action="{% url 'bank:staff_customer_details' customer.pk %}" method="post">
     {% csrf_token %}
     <fieldset>
