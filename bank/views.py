@@ -171,7 +171,6 @@ def staff_new_customer(request):
                 )
                 print(f'********** Username: {username} -- Password: {password}')
                 Customer.objects.create(user=user, rank=rank, personal_id=personal_id, phone=phone)
-                # TODO: redirect to customer details
                 return staff_customer_details(request, user.pk)
             except IntegrityError:
                 context = {
@@ -187,35 +186,3 @@ def staff_new_customer(request):
         'customer_form': customer_form,
     }
     return render(request, 'bank/staff_new_customer.html', context)
-
-
-#@login_required
-#def staff_new_customer(request):
-#    assert request.user.is_staff, 'Customer user routing staff view.'
-#
-#    if request.method == 'POST':
-#        form = NewCustomerForm(request.POST)
-#        form.fields['rank'].queryset = Rank.objects.all()
-#        if form.is_valid():
-#            username = form.cleaned_data['username']
-#            first_name = form.cleaned_data['first_name']
-#            last_name = form.cleaned_data['last_name']
-#            personal_id = form.cleaned_data['personal_id']
-#            email = form.cleaned_data['email']
-#            phone = form.cleaned_data['phone']
-#            rank = form.cleaned_data['rank']
-#            try:
-#                password = token_urlsafe(16)
-#                user = User.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name)
-#                Customer.objects.create(user=user, phone=phone, rank=rank, personal_id=personal_id)
-#                print(f'****** Username: {username}   Password: {password}')
-#                # TODO: go to customer details page
-#            except IntegrityError:
-#                return render(request, 'bank/error.html', {'title': 'Error', 'error': 'Unknow database error.'})
-#    else:
-#        form = NewCustomerForm()
-#    form.fields['rank'].queryset = Rank.objects.all()
-#    context = {
-#        'form': form,
-#    }
-#    return render(request, 'bank/staff_new_customer.html', context)
