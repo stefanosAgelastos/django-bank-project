@@ -1,6 +1,6 @@
 {% for customer in customers %}
 <tr>
-    <td>{{ customer.pk }}</td>
+    <td><a href="{% url 'bank:staff_customer_details' customer.pk %}">{{ customer.pk }}</a></td>
     <td>{{ customer.personal_id }}</td>
     <td>{{ customer.full_name }}</td>
     <td>{{ customer.phone }}</td>
