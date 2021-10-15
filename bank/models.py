@@ -64,7 +64,6 @@ class Customer(models.Model):
             is_loan=True
         )
 
-
     @classmethod
     def search(cls, search_term):
         return cls.objects.filter(
@@ -75,7 +74,6 @@ class Customer(models.Model):
             Q(personal_id__contains=search_term)      |
             Q(phone__contains=search_term)
         )[:15]
-
 
     def __str__(self):
         return f'{self.personal_id}: {self.full_name}'
