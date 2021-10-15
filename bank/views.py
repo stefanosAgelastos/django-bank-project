@@ -69,9 +69,8 @@ def make_transfer(request):
             credit_account = Account.objects.get(pk=form.cleaned_data['credit_account'])
             credit_text = form.cleaned_data['credit_text']
             try:
-                Ledger.transfer(amount, debit_account, debit_text, credit_account, credit_text)
-                # TODO: Better to redirect the user to the transaction details
-                return HttpResponseRedirect(reverse('bank:index'))
+                transfer = Ledger.transfer(amount, debit_account, debit_text, credit_account, credit_text)
+                return transaction_details(request, transfer)
             except InsufficientFunds:
                 context = {
                     'title': 'Transfer Error',
