@@ -17,5 +17,6 @@ urlpatterns = [
     path('staff_search_partial/', views.staff_search_partial, name='staff_search_partial'),
     path('staff_customer_details/<int:pk>/', views.staff_customer_details, name='staff_customer_details'),
     path('staff_account_list_partial/<int:pk>/', views.staff_account_list_partial, name='staff_account_list_partial'),
+    path('staff_account_details/<int:pk>/', views.staff_account_details, name='staff_account_details'),
     path('staff_new_customer/', views.staff_new_customer, name='staff_new_customer'),
 ]

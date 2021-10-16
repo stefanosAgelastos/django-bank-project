@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, reverse, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 from django.db import IntegrityError
 from .forms import TransferForm, UserForm, CustomerForm, NewUserForm
 from .models import Account, Ledger, Customer
@@ -38,17 +39,16 @@ def account_details(request, pk):
     account = get_object_or_404(Account, user=request.user, pk=pk)
     context = {
         'account': account,
-        'movements': account.movements,
-        'balance': account.balance
     }
     return render(request, 'bank/account_details.html', context)
 
 
 @login_required
 def transaction_details(request, transaction):
-    assert not request.user.is_staff, 'Staff user routing customer view.'
-
     movements = Ledger.objects.filter(transaction=transaction)
+    if not request.user.is_staff:
+        if not movements.filter(account__in=request.user.customer.accounts):
+            raise PermissionDenied('Customer is not part of the transaction.')
     context = {
         'movements': movements,
     }
@@ -155,6 +155,17 @@ def staff_account_list_partial(request, pk):
         'accounts': accounts,
     }
     return render(request, 'bank/staff_account_list_partial.html', context)
+
+
+@login_required
+def staff_account_details(request, pk):
+    assert request.user.is_staff, 'Customer user routing staff view.'
+
+    account = get_object_or_404(Account, pk=pk)
+    context = {
+        'account': account,
+    }
+    return render(request, 'bank/account_details.html', context)
 
 
 @login_required

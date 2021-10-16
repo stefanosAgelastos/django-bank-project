@@ -3,7 +3,11 @@
 
 {% block main %}
 
+{% if user.is_staff %}
+<p>Welcome, {{ user }}.</p>
+{% else %}
 <p>Welcome, {{ user.customer.full_name }}.</p>
+{% endif %}
 
 <h3>Account Details</h3>
 
@@ -16,7 +20,7 @@
     <tr>
         <td>{{ account.pk }}</td>
         <td>{{ account.name }}</td>
-        <td class="amount">{{ balance|floatformat:"2" }}</td>
+        <td class="amount">{{ account.balance|floatformat:"2" }}</td>
     </tr>
 </table>
 
@@ -29,7 +33,7 @@
         <th>Date and Time</th>
         <th>Text</th>
     </tr>
-    {% for movement in movements %}
+    {% for movement in account.movements %}
     <tr>
         <td><a href="{% url 'bank:transaction_details' movement.transaction %}">{{ movement.transaction }}</a></td>
         <td>{{ movement.amount|floatformat:"2" }}</td>
