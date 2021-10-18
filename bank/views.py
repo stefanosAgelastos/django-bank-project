@@ -171,6 +171,23 @@ def staff_account_details(request, pk):
 
 
 @login_required
+def staff_new_account_partial(request, user):
+    assert request.user.is_staff, 'Customer user routing staff view.'
+
+    if request.method == 'POST':
+        new_account_form = NewAccountForm(request.POST)
+        if new_account_form.is_valid():
+            Account.objects.create(user=User.objects.get(pk=user), name=new_account_form.cleaned_data['name'])
+#     new_account_form = NewAccountForm()
+#     context = {
+#         'new_account_form': new_account_form,
+#         'customer': get_object_or_404(User, pk=user).customer,
+#     }
+#     return render(request, 'bank/staff_new_account_partial.html', context)
+    return HttpResponseRedirect(reverse('bank:staff_customer_details', args=(user,)))
+
+
+@login_required
 def staff_new_customer(request):
     assert request.user.is_staff, 'Customer user routing staff view.'
 
