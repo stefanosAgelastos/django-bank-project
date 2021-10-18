@@ -13,18 +13,15 @@
     {% load l10n %}
 
     <header>
-    {% block header %}
-    <h1>KEA Bank</h1>
-    {% if user.is_staff %}
-    <h2>Bank Staff Portal</h2>
-    {% else %}
-    <h2>Bank Customer Portal</h2>
-    {% endif %}
-    {% endblock %}
+        <h1>KEA Bank</h1>
+        {% if user.is_staff %}
+        <h2>Bank Staff Portal</h2>
+        {% else %}
+        <h2>Bank Customer Portal</h2>
+        {% endif %}
     </header>
 
     <nav>
-        {% block nav %}
         <ul>
             <li><a href="{% url 'bank:index' %}">Home</a></li>
             <li>
@@ -43,7 +40,6 @@
             <li><a href="{% url 'bank:make_loan' %}">Make Loan</a></li>
             {% endif %}
         </ul>
-    {% endblock %}
     </nav>
 
     <main>
