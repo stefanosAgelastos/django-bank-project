@@ -7,8 +7,8 @@
 <form action="{% url 'bank:staff_customer_details' customer.pk %}" method="post">
     {% csrf_token %}
     <fieldset>
-        {{ user_form }}
-        {{ customer_form }}
+        {{ user_form.as_p }}
+        {{ customer_form.as_p }}
     <button>Update User</button>
     </fieldset>
 </form>
