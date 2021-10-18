@@ -1,7 +1,7 @@
 <tbody id="account-list">
 {% for account in accounts %}
     <tr>
-        <td><a href="{% url 'bank:staff_account_details' account.pk %}">{{ account.pk}}</a></td>
+        <td><a href="{% url 'bank:staff_account_details' account.pk %}">{{ account.pk }}</a></td>
         <td>{{ account.name }}</td>
         <td>{{ account.balance|floatformat:"2" }}</td>
     </tr>

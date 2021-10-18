@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block main %}
 <form action="{% url 'bank:staff_new_customer' %}" method="post">
@@ -9,4 +9,4 @@
     <button>Create User</button>
     </fieldset>
 </form>
-{% endblock %}
+{% endblock main %}
