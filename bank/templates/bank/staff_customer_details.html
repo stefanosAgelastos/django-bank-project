@@ -27,6 +27,15 @@
         hx-get="{% url 'bank:staff_account_list_partial' customer.pk %}"
         hx-trigger="load">
     </tbody>
-<table>
+</table>
+
+<h3>Create New Account</h3>
+<form action="{% url 'bank:staff_new_account_partial' customer.user.pk %}" method="post">
+    {% csrf_token %}
+    <fieldset>
+        {{ new_account_form.as_p }}
+    <button>Create Account</button>
+    </fieldset>
+</form>
 
 {% endblock %}
