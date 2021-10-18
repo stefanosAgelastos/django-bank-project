@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.db import IntegrityError
-from .forms import TransferForm, UserForm, CustomerForm, NewUserForm
+from .forms import TransferForm, UserForm, CustomerForm, NewUserForm, NewAccountForm
 from .models import Account, Ledger, Customer
 from .errors import InsufficientFunds
 
@@ -137,10 +137,12 @@ def staff_customer_details(request, pk):
         if user_form.is_valid() and customer_form.is_valid():
             user_form.save()
             customer_form.save()
+    new_account_form = NewAccountForm()
     context = {
         'customer': customer,
         'user_form': user_form,
         'customer_form': customer_form,
+        'new_account_form': new_account_form,
     }
     return render(request, 'bank/staff_customer_details.html', context)
 
