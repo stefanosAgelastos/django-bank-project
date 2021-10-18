@@ -18,5 +18,6 @@ urlpatterns = [
     path('staff_customer_details/<int:pk>/', views.staff_customer_details, name='staff_customer_details'),
     path('staff_account_list_partial/<int:pk>/', views.staff_account_list_partial, name='staff_account_list_partial'),
     path('staff_account_details/<int:pk>/', views.staff_account_details, name='staff_account_details'),
+    path('staff_new_account_partial/<int:user>/', views.staff_new_account_partial, name='staff_new_account_partial'),
     path('staff_new_customer/', views.staff_new_customer, name='staff_new_customer'),
 ]
