@@ -1,0 +1,8 @@
+#!/bin/sh
+
+fd . | entr -c sh -c '\
+echo "Software Quality Assurance script ..." && \
+pylama && \
+djlint . && \
+echo "Waiting for files to change ..." \
+'
