@@ -53,3 +53,9 @@ class CustomerForm(forms.ModelForm):
     class Meta:
         model = Customer
         fields = ('rank', 'personal_id', 'phone')
+
+
+class NewAccountForm(forms.ModelForm):
+    class Meta:
+        model = Account
+        fields = ('name',)
