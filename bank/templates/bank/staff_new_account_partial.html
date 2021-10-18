@@ -1,7 +1,0 @@
-<form action="{% url 'bank:staff_new_account_partial' customer.user.pk %}" method="post">
-    {% csrf_token %}
-    <fieldset>
-        {{ new_account_form }}
-    <button>Create Account</button>
-    </fieldset>
-</form>
