@@ -38,7 +38,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+
+    # 3rd party apps
+    'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth',
+
+    # custom apps
     'bank',
+    'bank_api',
 ]
 
 MIDDLEWARE = [
@@ -100,6 +108,17 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+# API token authentication
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ]
+}
 
 
 # Internationalization
