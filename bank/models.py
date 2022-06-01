@@ -81,6 +81,12 @@ class Customer(models.Model):
         return f'{self.personal_id}: {self.full_name}'
 
 
+class MFA:
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    mfa_token = models.SmallIntegerField(db_index=True)
+    timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
+
+
 class Account(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     name = models.CharField(max_length=50, db_index=True)
@@ -98,6 +104,15 @@ class Account(models.Model):
 
     def __str__(self):
         return f'{self.pk} :: {self.user} :: {self.name}'
+
+
+class Card(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    account = models.ForeignKey(Account, on_delete=models.PROTECT)
+    cvv = models.SmallIntegerField(db_index=True)
+    number = models.IntegerField(db_index=True)
+    password = models.SmallIntegerField(db_index=True)
+    expires_At = models.DateTimeField(db_index=True)
 
 
 class Ledger(models.Model):
@@ -139,3 +154,8 @@ class Ledger(models.Model):
 
     def __str__(self):
         return f'{self.amount} :: {self.transaction} :: {self.timestamp} :: {self.account} :: {self.text}'
+
+
+class External_Ledger(models.Model):
+    our_transaction = models.ForeignKey(Ledger, on_delete=models.PROTECT)
+    ext_transaction = models.IntegerField(db_index=True)
