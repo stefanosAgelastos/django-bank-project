@@ -6,6 +6,7 @@ from django.db.models import Q
 from django.db.models.query import QuerySet
 from django.contrib.auth.models import User
 from .errors import InsufficientFunds
+from enum import Enum
 
 
 class UID(models.Model):
@@ -136,26 +137,39 @@ class Ledger(models.Model):
                 raise InsufficientFunds
         return uid
 
-    @classmethod
-    def external_transfer(cls, amount, external_bank, external_bank_account, customer_account, recipient_text) -> int:
-        assert amount >= 0, 'Negative amount not allowed for transfer.'
-        with transaction.atomic():
-            print(external_bank)
-            # bank_name = User.objects.get()
-            if external_bank_account.balance >= amount:
-                uid = UID.uid
-                cls(amount=-amount, transaction=uid, account=external_bank_account,
-                    text=f'TRANSFER RECIPIENT: {customer_account}').save()
-                cls(amount=amount, transaction=uid,
-                    account=customer_account, text=recipient_text).save()
-            else:
-                raise InsufficientFunds
-        return uid
-
     def __str__(self):
         return f'{self.amount} :: {self.transaction} :: {self.timestamp} :: {self.account} :: {self.text}'
+
+
+class ExternalTransactionStatus(Enum):
+    C = 'Created'
+    V = 'Validated'
 
 
 class External_Ledger(models.Model):
     our_transaction = models.ForeignKey(Ledger, on_delete=models.PROTECT)
     ext_transaction = models.IntegerField(db_index=True)
+    status = models.CharField(max_length=2, choices=[(
+        x, x.value) for x in ExternalTransactionStatus], default=ExternalTransactionStatus.C)
+
+    @classmethod
+    def transfer(cls, amount, external_bank, ext_uid, external_bank_account, customer_account, recipient_text) -> int:
+        assert amount >= 0, 'Negative amount not allowed for transfer.'
+        with transaction.atomic():
+            try:
+                our_uid = Ledger.transfer(
+                    amount, external_bank_account,  f'TRANSFER RECIPIENT: {customer_account}', customer_account, f'TRANSFER FROM: {external_bank} TEXT: {recipient_text}')
+            except InsufficientFunds:
+                raise
+            else:
+                cls.save(our_transaction=our_uid, ext_transaction=ext_uid)
+        return our_uid
+
+    @classmethod
+    def confirm_transfer(cls, ext_uid):
+        try:
+            ext_tran = cls.objects.get(ext_transaction=ext_uid)
+        except External_Ledger.DoesNotExist:
+            raise
+        else:
+            ext_tran.update(status=ExternalTransactionStatus.V)
