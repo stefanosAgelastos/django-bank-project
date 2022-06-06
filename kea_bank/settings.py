@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     # 3rd party apps
     'rest_framework',
     'rest_framework.authtoken',
+    # does the app work without this?
     'rest_auth',
 
     # custom apps
@@ -116,6 +117,9 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        # this custom class issues the token for a valid entity's username and password
+        'bank_api.authentication.EntityAuthentication',
+        # this class handles the authorization of the token
         'rest_framework.authentication.TokenAuthentication',
     ]
 }

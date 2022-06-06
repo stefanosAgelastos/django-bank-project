@@ -1,33 +1,29 @@
 #### Get Valid Account ID
 GET http://localhost:8000/api/v1/account/1 HTTP/1.1
 content-type: application/json
-Authorization: Token 61f12400dc8917aa90246685c73ac54c68ec95e4
+Authorization: Token f6f9922cc3503642ae89e0cd80d6fbc635cb50c4
 
 #### Get Invalid Account ID
 GET http://localhost:8000/api/v1/account/12 HTTP/1.1
 content-type: application/json
-Authorization: Token 61f12400dc8917aa90246685c73ac54c68ec95e4
+Authorization: Token f6f9922cc3503642ae89e0cd80d6fbc635cb50c4
 
-{
-    "name": "sample",
-    "time": "Wed, 21 Oct 2015 18:27:50 GMT"
-}
-
-#### Get Invalid Account ID
+#### MAKE VALID EXT TRANSACTION
 POST http://localhost:8000/api/v1/transaction HTTP/1.1
 content-type: application/json
-Authorization: Token 61f12400dc8917aa90246685c73ac54c68ec95e4
+Authorization: Token f6f9922cc3503642ae89e0cd80d6fbc635cb50c4
 
 {
-    "customer_account": "1",
-    "external_bank_account": "3",
+    "recipient_account": "1",
+    "creditor_account": "3",
     "recipient_text": "Some explanation",
-    "amount": "100.0"
+    "amount": "100.0",
+    "ref" : 1234
 }
 
-###
-POST http://localhost:8000/api/v1/rest-auth/login/ HTTP/1.1
+### Get API token
+POST http://localhost:8000/api/v1/rest-auth/ HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 
-username=dummy
-&password=mirror12
+username=Manager
+&password=bankia12

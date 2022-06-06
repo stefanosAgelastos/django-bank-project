@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import ExternalLedger, Entity
 
-# Register your models here.
+admin.site.register(ExternalLedger)
+admin.site.register(Entity)

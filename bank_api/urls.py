@@ -1,4 +1,5 @@
-from django.urls import path, include
+from django.urls import path
+from rest_framework.authtoken import views
 from .api import AccountExists, Transfer
 
 
@@ -8,5 +9,5 @@ urlpatterns = [
     path('account/<int:pk>', AccountExists.as_view()),
     path('transaction/<int:pk>', Transfer.as_view()),
     path('transaction', Transfer.as_view()),
-    path('rest-auth/', include('rest_auth.urls')),
+    path('rest-auth/', views.obtain_auth_token),
 ]
