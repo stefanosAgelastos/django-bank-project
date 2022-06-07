@@ -2,7 +2,7 @@ import secrets
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
 from bank.models import Account, Ledger, Customer
-from bank_api.models import Entity, EntityType
+from transfers.models import Entity
 
 
 class Command(BaseCommand):
@@ -41,7 +41,6 @@ class Command(BaseCommand):
         dummy_account = Account.objects.create(
             user=dummy_user, name='Checking account')
         dummy_account.save()
-
         Ledger.transfer(
             1_000,
             ops_account,
@@ -63,11 +62,18 @@ class Command(BaseCommand):
         john_account.save()
 
         bankia_user = User.objects.create_user(
-            'Manager', email='mgmt@bankia.com', password='bankia12')
+            'bankia_manager', email='mgmt@bankia.com', password='bankia12')
         bankia_user.save()
         bankia_entity = Entity.objects.create(
-            user=bankia_user, personal_id='121212',  phone='121212', brand='Bankia AS', type=EntityType.NB)
+            user=bankia_user, personal_id='121212',  phone='121212', brand='Bankia AS', type=Entity.EntityType.NATIONAL_BANK)
         bankia_entity.save()
         bankia_account = Account.objects.create(
             user=bankia_user, name='The account')
         bankia_account.save()
+        Ledger.transfer(
+            1_000,
+            ops_account,
+            'Payout to Bankia',
+            bankia_account,
+            'Payout from bank'
+        )

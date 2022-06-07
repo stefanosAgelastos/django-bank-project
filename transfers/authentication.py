@@ -9,7 +9,6 @@ class EntityAuthentication(authentication.BaseAuthentication):
     # this method handles only the initial authorization provided a username
     def authenticate(self, request):
         username = request.POST.get('username')
-        print(username)
         if not username:
             return None
 

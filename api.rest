@@ -1,29 +1,43 @@
-#### Get Valid Account ID
-GET http://localhost:8000/api/v1/account/1 HTTP/1.1
-content-type: application/json
-Authorization: Token f6f9922cc3503642ae89e0cd80d6fbc635cb50c4
-
-#### Get Invalid Account ID
-GET http://localhost:8000/api/v1/account/12 HTTP/1.1
-content-type: application/json
-Authorization: Token f6f9922cc3503642ae89e0cd80d6fbc635cb50c4
-
-#### MAKE VALID EXT TRANSACTION
-POST http://localhost:8000/api/v1/transaction HTTP/1.1
-content-type: application/json
-Authorization: Token f6f9922cc3503642ae89e0cd80d6fbc635cb50c4
-
-{
-    "recipient_account": "1",
-    "creditor_account": "3",
-    "recipient_text": "Some explanation",
-    "amount": "100.0",
-    "ref" : 1234
-}
-
 ### Get API token
 POST http://localhost:8000/api/v1/rest-auth/ HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 
-username=Manager
+username=bankia_manager
 &password=bankia12
+
+#### Get Valid Account ID
+GET http://localhost:8000/api/v1/account/1 HTTP/1.1
+content-type: application/json
+Authorization: Token e6fb628f6767c67769272deb9f7d4edc69a32c27
+
+#### Get Invalid Account ID
+GET http://localhost:8000/api/v1/account/12 HTTP/1.1
+content-type: application/json
+Authorization: Token e6fb628f6767c67769272deb9f7d4edc69a32c27
+
+#### Create transfer
+POST http://localhost:8000/api/v1/transaction HTTP/1.1
+content-type: application/json
+Authorization: Token e6fb628f6767c67769272deb9f7d4edc69a32c27
+
+{
+    "recipient_account": "1",
+    "creditor_account": "5",
+    "recipient_text": "Some explanation",
+    "amount": "100.0",
+    "reference" : "12"
+}
+
+#### Get Invalid Account ID
+GET http://localhost:8000/api/v1/transaction/12 HTTP/1.1
+content-type: application/json
+Authorization: Token e6fb628f6767c67769272deb9f7d4edc69a32c27
+
+#### Create transfer
+PATCH http://localhost:8000/api/v1/transaction/12 HTTP/1.1
+content-type: application/json
+Authorization: Token e6fb628f6767c67769272deb9f7d4edc69a32c27
+
+{
+    "status": "V"
+}

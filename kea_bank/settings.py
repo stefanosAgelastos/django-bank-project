@@ -47,7 +47,7 @@ INSTALLED_APPS = [
 
     # custom apps
     'bank',
-    'bank_api',
+    'transfers',
 ]
 
 MIDDLEWARE = [
@@ -118,7 +118,7 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         # this custom class issues the token for a valid entity's username and password
-        'bank_api.authentication.EntityAuthentication',
+        'transfers.authentication.EntityAuthentication',
         # this class handles the authorization of the token
         'rest_framework.authentication.TokenAuthentication',
     ]
