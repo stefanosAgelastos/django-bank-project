@@ -2,6 +2,7 @@ from rest_framework import generics
 # this class handles the authorization of the token
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
+from django.http import Http404
 # this custom class issues the token for a valid entity's username and password
 from .authentication import EntityAuthentication
 from bank.models import Account
