@@ -104,7 +104,7 @@ class Account(models.Model):
         return self.movements.aggregate(models.Sum('amount'))['amount__sum'] or Decimal(0)
 
     def __str__(self):
-        return f'{self.pk} :: {self.user} :: {self.name}'
+        return f'{self.pk} :: {self.user} :: {self.name} :: {self.balance}'
 
 
 class Card(models.Model):

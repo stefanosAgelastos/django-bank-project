@@ -1,0 +1,12 @@
+{% extends "base.html" %} {% block main %}
+
+<p>Welcome, {{ user.customer.full_name }}.</p>
+
+<h3>External Transaction Progress</h3>
+
+<div
+  hx-get="{% url 'transfers:transfer_status' transfer_uid=transfer_uid %}"
+  hx-trigger="load"
+></div>
+
+{% endblock main %}

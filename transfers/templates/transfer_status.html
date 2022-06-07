@@ -1,0 +1,6 @@
+<div
+  class="loader"
+  hx-get="{% url 'transfers:transfer_status' transfer_uid=transfer_uid %}"
+  hx-trigger="load delay:6s"
+  hx-swap="outerHTML"
+></div>

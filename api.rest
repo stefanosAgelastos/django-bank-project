@@ -25,15 +25,15 @@ Authorization: Token e6fb628f6767c67769272deb9f7d4edc69a32c27
     "creditor_account": "5",
     "recipient_text": "Some explanation",
     "amount": "100.0",
-    "reference" : "12"
+    "reference" : "123"
 }
 
-#### Get Invalid Account ID
+#### Get transfer status
 GET http://localhost:8000/api/v1/transaction/12 HTTP/1.1
 content-type: application/json
 Authorization: Token e6fb628f6767c67769272deb9f7d4edc69a32c27
 
-#### Create transfer
+#### Set transfer status
 PATCH http://localhost:8000/api/v1/transaction/12 HTTP/1.1
 content-type: application/json
 Authorization: Token e6fb628f6767c67769272deb9f7d4edc69a32c27

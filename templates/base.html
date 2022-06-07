@@ -38,6 +38,7 @@
             {% else %}
             <li><a href="{% url 'bank:make_transfer' %}">Make Transfer</a></li>
             <li><a href="{% url 'bank:make_loan' %}">Make Loan</a></li>
+            <li><a href="{% url 'transfers:make_transfer' %}">Make Transfer to other bank</a></li>
             {% endif %}
         </ul>
     </nav>

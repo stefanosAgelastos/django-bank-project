@@ -58,7 +58,4 @@ class TransferSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         validated_data['entity'] = self.get_entity()
-        return ExternalLedger.transfer(**validated_data)
-
-    def update(self, validated_data):
-        return ExternalLedger.transfer(**validated_data)
+        return ExternalLedger.receive_transfer(**validated_data)

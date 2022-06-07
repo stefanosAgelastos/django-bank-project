@@ -65,7 +65,14 @@ class Command(BaseCommand):
             'bankia_manager', email='mgmt@bankia.com', password='bankia12')
         bankia_user.save()
         bankia_entity = Entity.objects.create(
-            user=bankia_user, personal_id='121212',  phone='121212', brand='Bankia AS', type=Entity.EntityType.NATIONAL_BANK)
+            api_url='http://127.0.0.1:8000/api/v1',
+            api_username='bankia_manager',
+            api_password='bankia12',
+            user=bankia_user,
+            personal_id='121212',
+            phone='121212',
+            brand='Bankia AS',
+            type=Entity.EntityType.NATIONAL_BANK)
         bankia_entity.save()
         bankia_account = Account.objects.create(
             user=bankia_user, name='The account')

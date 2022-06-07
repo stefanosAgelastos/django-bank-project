@@ -1,10 +1,15 @@
-from rest_framework import generics, status, mixins
-from rest_framework.response import Response
-from django.http import Http404
+from rest_framework import generics
+# this class handles the authorization of the token
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+# this custom class issues the token for a valid entity's username and password
+from .authentication import EntityAuthentication
 from bank.models import Account
 from .models import ExternalLedger
 from .serializers import AccountSerializer, TransferSerializer, TransferStatusSerializer
 from .permissions import IsOwnerOrNoAccess
+
+local_authentication_classes = [EntityAuthentication, TokenAuthentication]
 
 
 class AccountExists(generics.RetrieveAPIView):
@@ -13,11 +18,14 @@ class AccountExists(generics.RetrieveAPIView):
 
 
 class Transfer(generics.CreateAPIView):
+    authentication_classes = local_authentication_classes
+    permission_classes = [IsAuthenticated]
     serializer_class = TransferSerializer
 
 
 class TransferStatus(generics.RetrieveUpdateAPIView):
-    permission_classes = [IsOwnerOrNoAccess]
+    authentication_classes = local_authentication_classes
+    permission_classes = [IsAuthenticated, IsOwnerOrNoAccess]
     serializer_class = TransferStatusSerializer
     http_method_names = ["patch", "get", "options", "head"]
 
